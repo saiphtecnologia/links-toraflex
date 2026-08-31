@@ -38,16 +38,27 @@
 
   body {
     min-height: 100vh;
+    min-height: 100svh;
     color: var(--am-brown);
-    background: #f4efe8;
+    background-color: #815522;
+    background-image:
+      linear-gradient(rgba(65, 40, 25, 0.4), rgba(65, 40, 25, 0.5)),
+      var(--am-bg-image, url("assets/fundo-madeira.webp"));
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: "Manrope AM", Manrope, "Segoe UI", Arial, sans-serif;
     line-height: 1.5;
   }
 
   .am-admin-shell {
     display: flex;
+    align-items: center;
     justify-content: center;
     width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
     padding: clamp(16px, 4vw, 48px);
   }
 
@@ -372,6 +383,40 @@
     font-size: 12.5px;
   }
 
+  .am-password-field {
+    position: relative;
+  }
+
+  .am-password-field input {
+    padding-right: 42px;
+  }
+
+  .am-password-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    color: var(--am-text-soft);
+    background: transparent;
+    transform: translateY(calc(-50% + 3px));
+  }
+
+  .am-password-toggle:hover {
+    color: var(--am-brown);
+    background: rgba(65, 40, 25, 0.06);
+  }
+
+  .am-password-toggle svg {
+    width: 19px;
+    height: 19px;
+  }
+
   .am-content-hint {
     margin: -10px 0 16px;
     color: var(--am-text-soft);
@@ -413,7 +458,12 @@
         <input type="email" id="am-login-email" required autocomplete="username">
       </label>
       <label class="am-field">Senha
-        <input type="password" id="am-login-password" required autocomplete="current-password">
+        <div class="am-password-field">
+          <input type="password" id="am-login-password" required autocomplete="current-password">
+          <button type="button" class="am-password-toggle" data-target="am-login-password" aria-label="Mostrar senha">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-eye"></use></svg>
+          </button>
+        </div>
       </label>
       <button type="submit" class="am-btn-primary">Entrar</button>
       <p id="am-login-error" class="am-admin-error" hidden></p>
@@ -430,6 +480,7 @@
       <button type="button" class="am-tab is-active" data-tab="links">Links</button>
       <button type="button" class="am-tab" data-tab="social">Redes sociais</button>
       <button type="button" class="am-tab" data-tab="content">Conteúdo do site</button>
+      <button type="button" class="am-tab" data-tab="password">Senha</button>
     </div>
 
     <div class="am-tab-panel" data-tab-panel="links">
@@ -476,6 +527,12 @@
         <label class="am-field">Título da seção de links
           <input type="text" id="am-content-links-label" maxlength="60">
         </label>
+        <label class="am-field">Nome da opção de destaque "verde" (usado no seletor de destaque dos links)
+          <input type="text" id="am-content-highlight-primary-label" maxlength="60">
+        </label>
+        <label class="am-field">Nome da opção de destaque "dourado" (usado no seletor de destaque dos links)
+          <input type="text" id="am-content-highlight-glow-label" maxlength="60">
+        </label>
         <label class="am-field">Selo do cartão de destaque
           <input type="text" id="am-content-feature-kicker" maxlength="60">
         </label>
@@ -498,6 +555,30 @@
         <button type="submit" class="am-btn-primary">Salvar conteúdo</button>
         <p id="am-content-success" class="am-admin-notice" hidden>Conteúdo salvo com sucesso!</p>
         <p id="am-content-error" class="am-admin-error" hidden></p>
+      </form>
+    </div>
+
+    <div class="am-tab-panel" data-tab-panel="password" hidden>
+      <form id="am-password-form">
+        <label class="am-field">Nova senha
+          <div class="am-password-field">
+            <input type="password" id="am-new-password" required minlength="6" autocomplete="new-password">
+            <button type="button" class="am-password-toggle" data-target="am-new-password" aria-label="Mostrar senha">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-eye"></use></svg>
+            </button>
+          </div>
+        </label>
+        <label class="am-field">Confirmar nova senha
+          <div class="am-password-field">
+            <input type="password" id="am-new-password-confirm" required minlength="6" autocomplete="new-password">
+            <button type="button" class="am-password-toggle" data-target="am-new-password-confirm" aria-label="Mostrar senha">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-eye"></use></svg>
+            </button>
+          </div>
+        </label>
+        <button type="submit" class="am-btn-primary">Salvar nova senha</button>
+        <p id="am-password-success" class="am-admin-notice" hidden>Senha alterada com sucesso!</p>
+        <p id="am-password-error" class="am-admin-error" hidden></p>
       </form>
     </div>
   </section>
@@ -655,6 +736,13 @@
     <symbol id="am-icon-threads" viewBox="0 0 24 24">
       <path d="M12 4c-4.4 0-7 3.2-7 8s2.6 8 7 8c3.6 0 5.6-2 5.6-4.4 0-2.1-1.4-3.4-3.7-3.7-1.9-.2-3.4.4-3.4 1.8 0 1 .9 1.6 2 1.6 1.6 0 2.7-1.1 2.9-2.9.2-2.2-1-4.4-4-4.4-2.5 0-4.2 1.6-4.4 3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
+    <symbol id="am-icon-eye" viewBox="0 0 24 24">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="am-icon-eye-off" viewBox="0 0 24 24">
+      <path d="M9.9 5.6A10.6 10.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a15.6 15.6 0 0 1-3.2 4M6.5 6.9C4 8.7 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.3 0 2.5-.3 3.6-.8M9.9 9.9a3 3 0 0 0 4.2 4.2M3.5 3.5l17 17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
   </defs>
 </svg>
 
@@ -742,6 +830,8 @@
     contentSubtitle: document.getElementById("am-content-subtitle"),
     contentCopy: document.getElementById("am-content-copy"),
     contentLinksLabel: document.getElementById("am-content-links-label"),
+    contentHighlightPrimaryLabel: document.getElementById("am-content-highlight-primary-label"),
+    contentHighlightGlowLabel: document.getElementById("am-content-highlight-glow-label"),
     contentFeatureKicker: document.getElementById("am-content-feature-kicker"),
     contentFeatureTitle: document.getElementById("am-content-feature-title"),
     contentFeatureText: document.getElementById("am-content-feature-text"),
@@ -749,7 +839,13 @@
     contentFeatureCtaUrl: document.getElementById("am-content-feature-cta-url"),
     contentSocialLabel: document.getElementById("am-content-social-label"),
     contentSuccess: document.getElementById("am-content-success"),
-    contentError: document.getElementById("am-content-error")
+    contentError: document.getElementById("am-content-error"),
+
+    passwordForm: document.getElementById("am-password-form"),
+    newPassword: document.getElementById("am-new-password"),
+    newPasswordConfirm: document.getElementById("am-new-password-confirm"),
+    passwordSuccess: document.getElementById("am-password-success"),
+    passwordError: document.getElementById("am-password-error")
   };
 
   function showOnly(el) {
@@ -768,9 +864,35 @@
     });
   });
 
+  document.addEventListener("click", function (event) {
+    var btn = event.target.closest(".am-password-toggle");
+    if (!btn) return;
+    var input = document.getElementById(btn.getAttribute("data-target"));
+    if (!input) return;
+    var showing = input.type === "text";
+    input.type = showing ? "password" : "text";
+    btn.querySelector("use").setAttribute("href", showing ? "#am-icon-eye" : "#am-icon-eye-off");
+    btn.setAttribute("aria-label", showing ? "Mostrar senha" : "Ocultar senha");
+  });
+
+  function loadBackground() {
+    try {
+      var bgClient = supabase.createClient(window.AM_SUPABASE_URL, window.AM_SUPABASE_ANON_KEY);
+      bgClient.from("site_content").select("background_url").eq("id", 1).limit(1)
+        .then(function (result) {
+          var row = result.data && result.data[0];
+          if (row && row.background_url) {
+            document.documentElement.style.setProperty("--am-bg-image", 'url("' + row.background_url + '")');
+          }
+        })
+        .catch(function () {});
+    } catch (err) {}
+  }
+
   if (!window.AM_SUPABASE_URL || window.AM_SUPABASE_URL.indexOf("SEU-PROJETO") !== -1) {
     showOnly(els.configWarning);
   } else {
+    loadBackground();
     startApp();
   }
 
@@ -1150,6 +1272,15 @@
       }
     });
 
+    function applyHighlightLabels(content) {
+      HIGHLIGHT_LABELS.primary = (content && content.highlight_primary_label) || "Verde em destaque (largura total)";
+      HIGHLIGHT_LABELS.glow = (content && content.highlight_glow_label) || "Brilho dourado";
+      var primaryOption = els.formHighlight.querySelector('option[value="primary"]');
+      var glowOption = els.formHighlight.querySelector('option[value="glow"]');
+      if (primaryOption) primaryOption.textContent = HIGHLIGHT_LABELS.primary;
+      if (glowOption) glowOption.textContent = HIGHLIGHT_LABELS.glow;
+    }
+
     async function loadContent() {
       els.contentError.hidden = true;
       var result = await client.from("site_content").select("*").eq("id", 1).limit(1);
@@ -1168,12 +1299,15 @@
       els.contentSubtitle.value = content.brand_subtitle || "";
       els.contentCopy.value = content.brand_copy || "";
       els.contentLinksLabel.value = content.links_section_label || "";
+      els.contentHighlightPrimaryLabel.value = content.highlight_primary_label || "";
+      els.contentHighlightGlowLabel.value = content.highlight_glow_label || "";
       els.contentFeatureKicker.value = content.feature_kicker || "";
       els.contentFeatureTitle.value = content.feature_title || "";
       els.contentFeatureText.value = content.feature_text || "";
       els.contentFeatureCtaLabel.value = content.feature_cta_label || "";
       els.contentFeatureCtaUrl.value = content.feature_cta_url || "";
       els.contentSocialLabel.value = content.social_label || "";
+      applyHighlightLabels(content);
     }
 
     els.contentForm.addEventListener("submit", async function (event) {
@@ -1189,6 +1323,8 @@
         brand_subtitle: els.contentSubtitle.value.trim(),
         brand_copy: els.contentCopy.value.trim(),
         links_section_label: els.contentLinksLabel.value.trim(),
+        highlight_primary_label: els.contentHighlightPrimaryLabel.value.trim() || "Verde em destaque (largura total)",
+        highlight_glow_label: els.contentHighlightGlowLabel.value.trim() || "Brilho dourado",
         feature_kicker: els.contentFeatureKicker.value.trim(),
         feature_title: els.contentFeatureTitle.value.trim(),
         feature_text: els.contentFeatureText.value.trim(),
@@ -1204,7 +1340,33 @@
         return;
       }
 
+      applyHighlightLabels(payload);
+      renderList(renderList.current || []);
       els.contentSuccess.hidden = false;
+    });
+
+    // ── Alterar senha ──
+
+    els.passwordForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      els.passwordError.hidden = true;
+      els.passwordSuccess.hidden = true;
+
+      if (els.newPassword.value !== els.newPasswordConfirm.value) {
+        els.passwordError.textContent = "As senhas não coincidem.";
+        els.passwordError.hidden = false;
+        return;
+      }
+
+      var result = await client.auth.updateUser({ password: els.newPassword.value });
+      if (result.error) {
+        els.passwordError.textContent = "Não foi possível alterar a senha: " + result.error.message;
+        els.passwordError.hidden = false;
+        return;
+      }
+
+      els.passwordForm.reset();
+      els.passwordSuccess.hidden = false;
     });
 
     els.loginForm.addEventListener("submit", async function (event) {

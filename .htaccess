@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /
+
+# Permite acessar o painel administrativo por /admin (sem precisar digitar .html)
+RewriteRule ^admin/?$ admin.html [L]
