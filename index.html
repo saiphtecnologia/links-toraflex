@@ -73,7 +73,7 @@
     background-color: #815522;
     background-image:
       linear-gradient(rgba(65, 40, 25, 0.18), rgba(65, 40, 25, 0.3)),
-      url("assets/fundo-madeira.webp");
+      var(--am-bg-image, url("assets/fundo-madeira.webp"));
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -194,7 +194,7 @@
     background-color: var(--am-brown);
     background-image:
       linear-gradient(112deg, rgba(65, 40, 25, 0.97) 6%, rgba(65, 40, 25, 0.81) 57%, rgba(65, 40, 25, 0.5) 100%),
-      url("assets/fundo-madeira.webp");
+      var(--am-bg-image, url("assets/fundo-madeira.webp"));
     background-position: center;
     background-size: cover;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
@@ -310,6 +310,37 @@
     border-color: rgba(65, 40, 25, 0.08);
     background: var(--am-green);
     box-shadow: 0 10px 26px rgba(93, 126, 15, 0.2);
+  }
+
+  .am-link-card--glow {
+    position: relative;
+    border-color: rgba(212, 160, 23, 0.45);
+    animation: am-glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  .am-link-card--glow::after {
+    position: absolute;
+    top: -9px;
+    right: 10px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: var(--am-white);
+    background: #d4a017;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    content: "Destaque";
+  }
+
+  @keyframes am-glow-pulse {
+    0%,
+    100% {
+      box-shadow: 0 6px 20px rgba(65, 40, 25, 0.055), 0 0 0 0 rgba(212, 160, 23, 0.45);
+    }
+    50% {
+      box-shadow: 0 6px 20px rgba(65, 40, 25, 0.055), 0 0 0 6px rgba(212, 160, 23, 0);
+    }
   }
 
   .am-card-icon {
@@ -614,109 +645,37 @@
       <header class="am-linkhub-header">
         <img
           class="am-brand-logo"
+          id="am-logo-img"
           src="assets/logo-arte-mineira.jpg"
           width="150"
           height="150"
           alt="Logo da Arte Mineira Móveis"
         >
-        <p class="am-eyebrow">Desde 2011&nbsp; · &nbsp;Itaúna, MG</p>
+        <p class="am-eyebrow" id="am-eyebrow-text">Desde 2011&nbsp; · &nbsp;Itaúna, MG</p>
         <h1 id="am-page-title">Arte Mineira Móveis</h1>
-        <p class="am-brand-subtitle">Móveis em madeira de demolição e acabamento artesanal</p>
-        <p class="am-brand-copy">Design, tradição e personalidade em peças feitas para transformar ambientes.</p>
+        <p class="am-brand-subtitle" id="am-brand-subtitle-text">Móveis em madeira de demolição e acabamento artesanal</p>
+        <p class="am-brand-copy" id="am-brand-copy-text">Design, tradição e personalidade em peças feitas para transformar ambientes.</p>
       </header>
 
       <section class="am-links-section" aria-labelledby="am-links-title">
         <h2 class="am-section-label" id="am-links-title">Nossos canais</h2>
 
-        <div class="am-link-grid">
-          <a class="am-link-card am-link-card--primary am-link-card--wide" href="https://wa.me/5537999974543?text=Ol%C3%A1%2C%20vim%20pela%20p%C3%A1gina%20de%20links%20da%20Arte%20Mineira%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-whatsapp"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Fale pelo WhatsApp</span>
-              <span class="am-card-description">Atendimento direto com a nossa equipe.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://artemineira-moveis.stoqui.shop/" target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-globe"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Visite nosso site</span>
-              <span class="am-card-description">Veja nossas linhas e novidades.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://wa.me/5537999974543?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20meu%20projeto." target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-ruler"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Solicite um orçamento</span>
-              <span class="am-card-description">Conte sobre o seu projeto.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://chat.whatsapp.com/IwEYWei6MtmLkGCMYT4izq" target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-tag"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Grupo de Ofertas</span>
-              <span class="am-card-description">Condições especiais em primeira mão.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://chat.whatsapp.com/HwllI7klf8jFzQtxb9bO1J" target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-sparkles"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Grupo de Artesanato</span>
-              <span class="am-card-description">Inspiração e novidades artesanais.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://www.instagram.com/artemineiramoveis" target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-instagram"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Instagram</span>
-              <span class="am-card-description">Projetos, móveis e bastidores.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-
-          <a class="am-link-card" href="https://www.google.com/maps?q=-20.066544,-44.579758" target="_blank" rel="noopener noreferrer">
-            <span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-pin"></use></svg></span>
-            <span class="am-card-text">
-              <span class="am-card-title">Como chegar?</span>
-              <span class="am-card-description">Rua Silva Jardim, 758 · Itaúna, MG.</span>
-            </span>
-            <svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
-          </a>
-        </div>
+        <div class="am-link-grid" id="am-link-grid"></div>
       </section>
 
       <section class="am-feature-card" aria-labelledby="am-feature-title">
-        <span class="am-feature-kicker">Artesanalmente mineiro</span>
+        <span class="am-feature-kicker" id="am-feature-kicker-text">Artesanalmente mineiro</span>
         <h2 id="am-feature-title">Madeira com história. Móveis com personalidade.</h2>
-        <p>Conheça peças que unem a beleza do rústico, o cuidado artesanal e a presença marcante da madeira.</p>
-        <a class="am-feature-cta" href="https://artemineira-moveis.stoqui.shop/" target="_blank" rel="noopener noreferrer">
-          Conheça nossos móveis
+        <p id="am-feature-text">Conheça peças que unem a beleza do rústico, o cuidado artesanal e a presença marcante da madeira.</p>
+        <a class="am-feature-cta" id="am-feature-cta-link" href="https://artemineira-moveis.stoqui.shop/" target="_blank" rel="noopener noreferrer">
+          <span id="am-feature-cta-label">Conheça nossos móveis</span>
           <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>
         </a>
       </section>
 
       <nav class="am-social-area" aria-label="Redes sociais da Arte Mineira Móveis">
-        <span class="am-social-label">Siga a Arte Mineira</span>
-        <div class="am-social-links">
-          <a class="am-social-link" href="https://www.instagram.com/artemineiramoveis" target="_blank" rel="noopener noreferrer" aria-label="Arte Mineira Móveis no Instagram">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-instagram"></use></svg>
-          </a>
-          <a class="am-social-link" href="https://www.tiktok.com/@artemineira" target="_blank" rel="noopener noreferrer" aria-label="Arte Mineira Móveis no TikTok">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-tiktok"></use></svg>
-          </a>
-          <a class="am-social-link" href="https://wa.me/5537999974543" target="_blank" rel="noopener noreferrer" aria-label="Falar com a Arte Mineira Móveis pelo WhatsApp">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-whatsapp"></use></svg>
-          </a>
-        </div>
+        <span class="am-social-label" id="am-social-label-text">Siga a Arte Mineira</span>
+        <div class="am-social-links" id="am-social-links"></div>
       </nav>
 
       <footer class="am-linkhub-footer">
@@ -768,9 +727,201 @@
       <symbol id="am-icon-tiktok" viewBox="0 0 24 24">
         <path d="M14.2 4v10.1a4.5 4.5 0 1 1-3.7-4.4v3.1a1.8 1.8 0 1 0 .7 1.4V4h3c.3 2 1.7 3.4 3.8 3.8v3.1a7.4 7.4 0 0 1-3.8-1.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </symbol>
+      <symbol id="am-icon-phone" viewBox="0 0 24 24">
+        <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3c0 1.1-.9 2-2 2C10.4 19.5 4.5 13.6 4.5 5.5c0-1.1.9-2 2-2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-email" viewBox="0 0 24 24">
+        <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="m4.5 7 7.5 6 7.5-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-facebook" viewBox="0 0 24 24">
+        <path d="M14.5 8.5h2V5.3c-.4-.05-1.5-.15-2.7-.15-2.7 0-4.5 1.7-4.5 4.7v2.3H6.7v3.4h2.6V21h3.5v-5.4h2.6l.4-3.4h-3v-2c0-1 .3-1.7 1.7-1.7Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="am-icon-youtube" viewBox="0 0 24 24">
+        <rect x="3" y="6" width="18" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M10.5 9.7v4.6l4-2.3-4-2.3Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="am-icon-cart" viewBox="0 0 24 24">
+        <path d="M4 5h2l1.6 9.2a2 2 0 0 0 2 1.6h6.8a2 2 0 0 0 2-1.6L20 8H6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="19.5" r="1.3" fill="currentColor"/>
+        <circle cx="16.5" cy="19.5" r="1.3" fill="currentColor"/>
+      </symbol>
+      <symbol id="am-icon-star" viewBox="0 0 24 24">
+        <path d="M12 3.7l2.5 5.2 5.6.8-4 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4-4 5.6-.8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-heart" viewBox="0 0 24 24">
+        <path d="M12 20.2s-7.5-4.5-9.5-9A5 5 0 0 1 12 6.5 5 5 0 0 1 21.5 11.2c-2 4.5-9.5 9-9.5 9Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-calendar" viewBox="0 0 24 24">
+        <rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="am-icon-message" viewBox="0 0 24 24">
+        <path d="M4 5.5h16v10.5H9l-4 3.5v-3.5H4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-pinterest" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.7" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M9.8 17.3c.4-1.6 1.3-5.3 1.3-5.3M11.6 8.4c2.3-.6 4 .5 4 2.6 0 2.2-1.2 3.9-3 3.9-.8 0-1.4-.4-1.6-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-linkedin" viewBox="0 0 24 24">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <circle cx="8" cy="8.3" r="1.1" fill="currentColor"/>
+        <path d="M8 11v6M12.2 17v-3.4c0-1.4.8-2.3 2-2.3s1.8.8 1.8 2.3V17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="am-icon-x" viewBox="0 0 24 24">
+        <path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="am-icon-telegram" viewBox="0 0 24 24">
+        <path d="M20.5 4.5 3.5 11l5.5 2 1.7 5.5 2.7-3.4 4.4 3.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="m9 13 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="am-icon-threads" viewBox="0 0 24 24">
+        <path d="M12 4c-4.4 0-7 3.2-7 8s2.6 8 7 8c3.6 0 5.6-2 5.6-4.4 0-2.1-1.4-3.4-3.7-3.7-1.9-.2-3.4.4-3.4 1.8 0 1 .9 1.6 2 1.6 1.6 0 2.7-1.1 2.9-2.9.2-2.2-1-4.4-4-4.4-2.5 0-4.2 1.6-4.4 3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
     </defs>
   </svg>
 </div>
+
+<script src="assets/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Valores de emergência: só são usados se a busca no Supabase falhar
+  // (projeto fora do ar, chave errada, etc.), para a página nunca ficar quebrada.
+  var AM_FALLBACK_LINKS = [
+    { title: "Fale pelo WhatsApp", description: "Atendimento direto com a nossa equipe.", url: "https://wa.me/5537999974543?text=Ol%C3%A1%2C%20vim%20pela%20p%C3%A1gina%20de%20links%20da%20Arte%20Mineira%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es.", icon_key: "whatsapp", highlight: "primary" },
+    { title: "Visite nosso site", description: "Veja nossas linhas e novidades.", url: "https://artemineira-moveis.stoqui.shop/", icon_key: "globe", highlight: "none" },
+    { title: "Solicite um orçamento", description: "Conte sobre o seu projeto.", url: "https://wa.me/5537999974543?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20meu%20projeto.", icon_key: "ruler", highlight: "none" },
+    { title: "Grupo de Ofertas", description: "Condições especiais em primeira mão.", url: "https://chat.whatsapp.com/IwEYWei6MtmLkGCMYT4izq", icon_key: "tag", highlight: "none" },
+    { title: "Grupo de Artesanato", description: "Inspiração e novidades artesanais.", url: "https://chat.whatsapp.com/HwllI7klf8jFzQtxb9bO1J", icon_key: "sparkles", highlight: "none" },
+    { title: "Instagram", description: "Projetos, móveis e bastidores.", url: "https://www.instagram.com/artemineiramoveis", icon_key: "instagram", highlight: "none" },
+    { title: "Como chegar?", description: "Rua Silva Jardim, 758 · Itaúna, MG.", url: "https://www.google.com/maps?q=-20.066544,-44.579758", icon_key: "pin", highlight: "none" }
+  ];
+
+  var AM_FALLBACK_SOCIAL = [
+    { icon_key: "instagram", label: "Arte Mineira Móveis no Instagram", url: "https://www.instagram.com/artemineiramoveis" },
+    { icon_key: "tiktok", label: "Arte Mineira Móveis no TikTok", url: "https://www.tiktok.com/@artemineira" },
+    { icon_key: "whatsapp", label: "Falar com a Arte Mineira Móveis pelo WhatsApp", url: "https://wa.me/5537999974543" }
+  ];
+
+  var AM_FALLBACK_CONTENT = {
+    logo_url: "assets/logo-arte-mineira.jpg",
+    logo_alt: "Logo da Arte Mineira Móveis",
+    background_url: "assets/fundo-madeira.webp",
+    eyebrow_text: "Desde 2011 · Itaúna, MG",
+    brand_subtitle: "Móveis em madeira de demolição e acabamento artesanal",
+    brand_copy: "Design, tradição e personalidade em peças feitas para transformar ambientes.",
+    links_section_label: "Nossos canais",
+    feature_kicker: "Artesanalmente mineiro",
+    feature_title: "Madeira com história. Móveis com personalidade.",
+    feature_text: "Conheça peças que unem a beleza do rústico, o cuidado artesanal e a presença marcante da madeira.",
+    feature_cta_label: "Conheça nossos móveis",
+    feature_cta_url: "https://artemineira-moveis.stoqui.shop/",
+    social_label: "Siga a Arte Mineira"
+  };
+
+  function amEscapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+    });
+  }
+
+  function amCardHtml(link) {
+    var classes = ["am-link-card"];
+    if (link.highlight === "primary") classes.push("am-link-card--primary", "am-link-card--wide");
+    if (link.highlight === "glow") classes.push("am-link-card--glow");
+
+    var description = link.description
+      ? '<span class="am-card-description">' + amEscapeHtml(link.description) + "</span>"
+      : "";
+
+    return (
+      '<a class="' + classes.join(" ") + '" href="' + amEscapeHtml(link.url) + '" target="_blank" rel="noopener noreferrer">' +
+        '<span class="am-card-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-' + amEscapeHtml(link.icon_key || "globe") + '"></use></svg></span>' +
+        '<span class="am-card-text">' +
+          '<span class="am-card-title">' + amEscapeHtml(link.title) + "</span>" +
+          description +
+        "</span>" +
+        '<svg class="am-card-arrow" aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-arrow"></use></svg>' +
+      "</a>"
+    );
+  }
+
+  function amRenderLinks(links) {
+    var grid = document.getElementById("am-link-grid");
+    grid.innerHTML = links.map(amCardHtml).join("");
+  }
+
+  function amSocialLinkHtml(social) {
+    return (
+      '<a class="am-social-link" href="' + amEscapeHtml(social.url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + amEscapeHtml(social.label) + '">' +
+        '<svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-' + amEscapeHtml(social.icon_key || "globe") + '"></use></svg>' +
+      "</a>"
+    );
+  }
+
+  function amRenderSocial(socials) {
+    var container = document.getElementById("am-social-links");
+    container.innerHTML = socials.map(amSocialLinkHtml).join("");
+  }
+
+  function amRenderContent(content) {
+    var logo = document.getElementById("am-logo-img");
+    logo.src = content.logo_url || AM_FALLBACK_CONTENT.logo_url;
+    logo.alt = content.logo_alt || AM_FALLBACK_CONTENT.logo_alt;
+
+    document.getElementById("am-eyebrow-text").textContent = content.eyebrow_text;
+    document.getElementById("am-brand-subtitle-text").textContent = content.brand_subtitle;
+    document.getElementById("am-brand-copy-text").textContent = content.brand_copy;
+    document.getElementById("am-links-title").textContent = content.links_section_label;
+    document.getElementById("am-feature-kicker-text").textContent = content.feature_kicker;
+    document.getElementById("am-feature-title").textContent = content.feature_title;
+    document.getElementById("am-feature-text").textContent = content.feature_text;
+    document.getElementById("am-feature-cta-label").textContent = content.feature_cta_label;
+    document.getElementById("am-feature-cta-link").href = content.feature_cta_url;
+    document.getElementById("am-social-label-text").textContent = content.social_label;
+
+    if (content.background_url) {
+      document.documentElement.style.setProperty("--am-bg-image", 'url("' + content.background_url + '")');
+    }
+  }
+
+  function amLoadAll() {
+    try {
+      var client = supabase.createClient(window.AM_SUPABASE_URL, window.AM_SUPABASE_ANON_KEY);
+
+      client.from("links").select("*").order("position", { ascending: true })
+        .then(function (result) {
+          amRenderLinks(result.error || !result.data || !result.data.length ? AM_FALLBACK_LINKS : result.data);
+        })
+        .catch(function () {
+          amRenderLinks(AM_FALLBACK_LINKS);
+        });
+
+      client.from("social_links").select("*").order("position", { ascending: true })
+        .then(function (result) {
+          amRenderSocial(result.error || !result.data || !result.data.length ? AM_FALLBACK_SOCIAL : result.data);
+        })
+        .catch(function () {
+          amRenderSocial(AM_FALLBACK_SOCIAL);
+        });
+
+      client.from("site_content").select("*").eq("id", 1).limit(1)
+        .then(function (result) {
+          var row = result.data && result.data[0];
+          amRenderContent(result.error || !row ? AM_FALLBACK_CONTENT : row);
+        })
+        .catch(function () {
+          amRenderContent(AM_FALLBACK_CONTENT);
+        });
+    } catch (err) {
+      amRenderLinks(AM_FALLBACK_LINKS);
+      amRenderSocial(AM_FALLBACK_SOCIAL);
+      amRenderContent(AM_FALLBACK_CONTENT);
+    }
+  }
+
+  amLoadAll();
+</script>
 
 </body>
 </html>

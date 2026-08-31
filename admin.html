@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel administrativo — Arte Mineira Móveis</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/webp" href="assets/icone-arte-mineira.webp">
+
+<style>
+  @font-face {
+    font-family: "Manrope AM";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2") format("woff2");
+  }
+
+  :root {
+    --am-brown: #412819;
+    --am-green: #85b415;
+    --am-white: #ffffff;
+    --am-text-soft: #735f51;
+    --am-danger: #b7402b;
+    --am-radius: 16px;
+    --am-transition: 180ms ease;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    color: var(--am-brown);
+    background: #f4efe8;
+    font-family: "Manrope AM", Manrope, "Segoe UI", Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .am-admin-shell {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: clamp(16px, 4vw, 48px);
+  }
+
+  .am-admin-card {
+    width: min(100%, 560px);
+    padding: clamp(20px, 5vw, 32px);
+    border: 1px solid rgba(65, 40, 25, 0.1);
+    border-radius: 22px;
+    background: var(--am-white);
+    box-shadow: 0 18px 50px rgba(65, 40, 25, 0.12);
+  }
+
+  .am-admin-card h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .am-admin-card h2 {
+    margin: 0 0 18px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .am-admin-subtitle {
+    margin: 0 0 22px;
+    color: var(--am-text-soft);
+    font-size: 13px;
+  }
+
+  .am-field {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .am-field-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  input[type="url"],
+  select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 11px 13px;
+    border: 1px solid rgba(65, 40, 25, 0.18);
+    border-radius: 10px;
+    color: var(--am-brown);
+    background: #fbf9f6;
+    font: inherit;
+    font-weight: 400;
+  }
+
+  input:focus,
+  select:focus {
+    outline: 2px solid var(--am-green);
+    outline-offset: 1px;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .am-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 999px;
+    color: var(--am-white);
+    background: var(--am-brown);
+    font-weight: 700;
+    font-size: 14px;
+    transition: transform var(--am-transition), background-color var(--am-transition);
+  }
+
+  .am-btn-primary:hover {
+    background: #5a3a25;
+    transform: translateY(-1px);
+  }
+
+  .am-btn-secondary {
+    padding: 10px 16px;
+    border: 1px solid rgba(65, 40, 25, 0.22);
+    border-radius: 999px;
+    color: var(--am-brown);
+    background: transparent;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .am-btn-text {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 8px;
+    color: var(--am-text-soft);
+    background: transparent;
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  .am-btn-text:hover {
+    color: var(--am-brown);
+    background: rgba(65, 40, 25, 0.06);
+  }
+
+  .am-btn-danger {
+    color: var(--am-danger);
+  }
+
+  .am-admin-error {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--am-danger);
+    background: rgba(183, 64, 43, 0.1);
+    font-size: 13px;
+  }
+
+  .am-admin-notice {
+    margin: 0 0 18px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #7a5a00;
+    background: rgba(212, 160, 23, 0.14);
+    font-size: 13px;
+  }
+
+  .am-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .am-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .am-link-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(65, 40, 25, 0.1);
+    border-radius: 14px;
+    background: #fbf9f6;
+  }
+
+  .am-link-row-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: var(--am-green);
+    background: rgba(133, 180, 21, 0.12);
+  }
+
+  .am-link-row-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .am-link-row-info {
+    min-width: 0;
+  }
+
+  .am-link-row-title {
+    display: block;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .am-link-row-url {
+    display: block;
+    overflow: hidden;
+    color: var(--am-text-soft);
+    font-size: 11.5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .am-link-row-badge {
+    display: inline-block;
+    margin-top: 3px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    color: var(--am-white);
+    background: #d4a017;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .am-link-row-badge--primary {
+    background: var(--am-green);
+  }
+
+  .am-link-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+  }
+
+  .am-empty-state {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px dashed rgba(65, 40, 25, 0.25);
+    border-radius: 14px;
+    color: var(--am-text-soft);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .am-icon-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .am-icon-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px 7px;
+    border: 1.5px solid rgba(65, 40, 25, 0.14);
+    border-radius: 12px;
+    color: var(--am-brown);
+    background: #fbf9f6;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .am-icon-option svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .am-icon-option.is-selected {
+    border-color: var(--am-green);
+    background: rgba(133, 180, 21, 0.14);
+  }
+
+  .am-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .am-form-actions .am-btn-primary {
+    width: auto;
+    flex: 1;
+  }
+
+  .am-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(65, 40, 25, 0.1);
+  }
+
+  .am-tab {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 999px;
+    color: var(--am-text-soft);
+    background: transparent;
+    font-weight: 700;
+    font-size: 12.5px;
+  }
+
+  .am-tab.is-active {
+    color: var(--am-white);
+    background: var(--am-brown);
+  }
+
+  .am-image-preview {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    height: 90px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(65, 40, 25, 0.14);
+    border-radius: 10px;
+    object-fit: cover;
+    background: #efe9e0;
+  }
+
+  input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    font-size: 12.5px;
+  }
+
+  .am-content-hint {
+    margin: -10px 0 16px;
+    color: var(--am-text-soft);
+    font-size: 11.5px;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .am-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="am-admin-shell">
+  <section id="am-config-warning" class="am-admin-card" hidden>
+    <h1>Configuração pendente</h1>
+    <p class="am-admin-subtitle">
+      O arquivo <code>assets/supabase-config.js</code> ainda não foi preenchido com os dados
+      do seu projeto Supabase (URL e chave pública). Preencha esse arquivo antes de usar o painel.
+    </p>
+  </section>
+
+  <section id="am-login-screen" class="am-admin-card" hidden>
+    <h1>Painel administrativo</h1>
+    <p class="am-admin-subtitle">Arte Mineira Móveis — faça login para gerenciar os links.</p>
+    <form id="am-login-form">
+      <label class="am-field">E-mail
+        <input type="email" id="am-login-email" required autocomplete="username">
+      </label>
+      <label class="am-field">Senha
+        <input type="password" id="am-login-password" required autocomplete="current-password">
+      </label>
+      <button type="submit" class="am-btn-primary">Entrar</button>
+      <p id="am-login-error" class="am-admin-error" hidden></p>
+    </form>
+  </section>
+
+  <section id="am-panel-screen" class="am-admin-card" hidden>
+    <div class="am-panel-header">
+      <h1>Painel administrativo</h1>
+      <button type="button" id="am-logout-btn" class="am-btn-secondary">Sair</button>
+    </div>
+
+    <div class="am-tabs" role="tablist">
+      <button type="button" class="am-tab is-active" data-tab="links">Links</button>
+      <button type="button" class="am-tab" data-tab="social">Redes sociais</button>
+      <button type="button" class="am-tab" data-tab="content">Conteúdo do site</button>
+    </div>
+
+    <div class="am-tab-panel" data-tab-panel="links">
+      <button type="button" id="am-new-link-btn" class="am-btn-primary">+ Novo link</button>
+      <ul id="am-links-list" class="am-links-list"></ul>
+      <p id="am-panel-empty" class="am-empty-state" hidden>Nenhum link cadastrado ainda.</p>
+      <p id="am-panel-error" class="am-admin-error" hidden></p>
+    </div>
+
+    <div class="am-tab-panel" data-tab-panel="social" hidden>
+      <button type="button" id="am-new-social-btn" class="am-btn-primary">+ Nova rede social</button>
+      <ul id="am-social-list" class="am-links-list"></ul>
+      <p id="am-social-empty" class="am-empty-state" hidden>Nenhuma rede social cadastrada ainda.</p>
+      <p id="am-social-error" class="am-admin-error" hidden></p>
+    </div>
+
+    <div class="am-tab-panel" data-tab-panel="content" hidden>
+      <form id="am-content-form">
+        <div class="am-field">
+          <span class="am-field-label">Logo</span>
+          <img id="am-content-logo-preview" class="am-image-preview" alt="Pré-visualização da logo">
+          <input type="file" id="am-content-logo-file" accept="image/*">
+        </div>
+        <label class="am-field">Texto alternativo da logo
+          <input type="text" id="am-content-logo-alt" maxlength="120">
+        </label>
+
+        <div class="am-field">
+          <span class="am-field-label">Imagem de fundo</span>
+          <img id="am-content-bg-preview" class="am-image-preview" alt="Pré-visualização do fundo">
+          <input type="file" id="am-content-bg-file" accept="image/*">
+        </div>
+        <p class="am-content-hint">O upload acontece assim que você escolhe o arquivo. As alterações de texto abaixo só são salvas ao clicar em "Salvar conteúdo".</p>
+
+        <label class="am-field">Texto acima do título (ex.: "Desde 2011 · Itaúna, MG")
+          <input type="text" id="am-content-eyebrow" maxlength="120">
+        </label>
+        <label class="am-field">Subtítulo
+          <input type="text" id="am-content-subtitle" maxlength="150">
+        </label>
+        <label class="am-field">Texto de apresentação
+          <input type="text" id="am-content-copy" maxlength="220">
+        </label>
+        <label class="am-field">Título da seção de links
+          <input type="text" id="am-content-links-label" maxlength="60">
+        </label>
+        <label class="am-field">Selo do cartão de destaque
+          <input type="text" id="am-content-feature-kicker" maxlength="60">
+        </label>
+        <label class="am-field">Título do cartão de destaque
+          <input type="text" id="am-content-feature-title" maxlength="150">
+        </label>
+        <label class="am-field">Texto do cartão de destaque
+          <input type="text" id="am-content-feature-text" maxlength="220">
+        </label>
+        <label class="am-field">Texto do botão do cartão
+          <input type="text" id="am-content-feature-cta-label" maxlength="60">
+        </label>
+        <label class="am-field">Link do botão do cartão
+          <input type="url" id="am-content-feature-cta-url">
+        </label>
+        <label class="am-field">Título da seção de redes sociais
+          <input type="text" id="am-content-social-label" maxlength="60">
+        </label>
+
+        <button type="submit" class="am-btn-primary">Salvar conteúdo</button>
+        <p id="am-content-success" class="am-admin-notice" hidden>Conteúdo salvo com sucesso!</p>
+        <p id="am-content-error" class="am-admin-error" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="am-form-screen" class="am-admin-card" hidden>
+    <h2 id="am-form-title">Novo link</h2>
+    <form id="am-link-form">
+      <input type="hidden" id="am-form-id">
+
+      <div class="am-field">
+        <span class="am-field-label">Selecionar ícone</span>
+        <div id="am-icon-picker" class="am-icon-picker"></div>
+      </div>
+
+      <label class="am-field">Nome do botão
+        <input type="text" id="am-form-title-input" required maxlength="60" placeholder="Ex.: Fale pelo WhatsApp">
+      </label>
+
+      <label class="am-field">Descrição (opcional)
+        <input type="text" id="am-form-description" maxlength="100" placeholder="Ex.: Atendimento direto com a nossa equipe.">
+      </label>
+
+      <label class="am-field">Link do botão
+        <input type="url" id="am-form-url" required placeholder="https://...">
+      </label>
+
+      <label class="am-field">Destaque
+        <select id="am-form-highlight">
+          <option value="none">Nenhum</option>
+          <option value="primary">Verde em destaque (largura total)</option>
+          <option value="glow">Brilho dourado</option>
+        </select>
+      </label>
+
+      <div class="am-form-actions">
+        <button type="button" id="am-form-cancel" class="am-btn-secondary">Cancelar</button>
+        <button type="submit" id="am-form-save" class="am-btn-primary">Salvar</button>
+      </div>
+      <p id="am-form-error" class="am-admin-error" hidden></p>
+    </form>
+  </section>
+
+  <section id="am-social-form-screen" class="am-admin-card" hidden>
+    <h2 id="am-social-form-title">Nova rede social</h2>
+    <form id="am-social-form">
+      <input type="hidden" id="am-social-form-id">
+
+      <div class="am-field">
+        <span class="am-field-label">Selecionar ícone</span>
+        <div id="am-social-icon-picker" class="am-icon-picker"></div>
+      </div>
+
+      <label class="am-field">Nome (usado como identificação do ícone)
+        <input type="text" id="am-social-form-label" required maxlength="80" placeholder="Ex.: Arte Mineira Móveis no Instagram">
+      </label>
+
+      <label class="am-field">Link
+        <input type="url" id="am-social-form-url" required placeholder="https://...">
+      </label>
+
+      <div class="am-form-actions">
+        <button type="button" id="am-social-form-cancel" class="am-btn-secondary">Cancelar</button>
+        <button type="submit" class="am-btn-primary">Salvar</button>
+      </div>
+      <p id="am-social-form-error" class="am-admin-error" hidden></p>
+    </form>
+  </section>
+</div>
+
+<svg class="am-visually-hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="am-icon-arrow" viewBox="0 0 24 24">
+      <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-whatsapp" viewBox="0 0 24 24">
+      <path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3.5 20.5l1.3-4.3a8.5 8.5 0 1 1 15.7-4.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.1 7.8c.2-.5.5-.5.8-.5h.4c.1 0 .3.1.4.4l.8 1.8c.1.3 0 .5-.1.7l-.6.7c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2 2.1.3.2.5.2.7 0l.8-1c.2-.2.4-.3.7-.2l1.8.9c.3.1.5.3.5.5 0 .3-.1 1.3-.8 1.8-.6.6-1.5.8-2.3.6-1.3-.4-2.7-1-4.3-2.5-1.2-1.2-2.1-2.6-2.3-3.9-.2-.8 0-1.5.5-2Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.7" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M3.6 12h16.8M12 3.3c2.3 2.4 3.5 5.3 3.5 8.7S14.3 18.4 12 20.7C9.7 18.4 8.5 15.4 8.5 12S9.7 5.7 12 3.3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="am-icon-ruler" viewBox="0 0 24 24">
+      <path d="m4.4 15.6 11.2-11.2 4 4L8.4 19.6h-4v-4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="m13.8 6.2 1.5 1.5M11.2 8.8l1.5 1.5M8.6 11.4l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="am-icon-tag" viewBox="0 0 24 24">
+      <path d="M4 12.5V5h7.5l8.1 8.1-6.5 6.5L4 12.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="8.1" cy="8.2" r="1.2" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-sparkles" viewBox="0 0 24 24">
+      <path d="M12 3.5c.4 3.9 2.5 6 6.5 6.5-4 .5-6.1 2.6-6.5 6.5-.4-3.9-2.5-6-6.5-6.5 4-.5 6.1-2.6 6.5-6.5Z" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
+      <path d="M18.3 15.7c.2 1.7 1.1 2.6 2.7 2.8-1.6.2-2.5 1.1-2.7 2.7-.2-1.6-1.1-2.5-2.8-2.7 1.7-.2 2.6-1.1 2.8-2.8ZM5.3 3.1c.1 1.1.7 1.7 1.8 1.9-1.1.1-1.7.7-1.8 1.8C5.1 5.7 4.5 5.1 3.4 5c1.1-.2 1.7-.8 1.9-1.9Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-instagram" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="17.4" cy="6.8" r="1" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-pin" viewBox="0 0 24 24">
+      <path d="M19.2 10.1c0 5.3-7.2 10.7-7.2 10.7S4.8 15.4 4.8 10.1a7.2 7.2 0 1 1 14.4 0Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </symbol>
+    <symbol id="am-icon-tiktok" viewBox="0 0 24 24">
+      <path d="M14.2 4v10.1a4.5 4.5 0 1 1-3.7-4.4v3.1a1.8 1.8 0 1 0 .7 1.4V4h3c.3 2 1.7 3.4 3.8 3.8v3.1a7.4 7.4 0 0 1-3.8-1.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-phone" viewBox="0 0 24 24">
+      <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3c0 1.1-.9 2-2 2C10.4 19.5 4.5 13.6 4.5 5.5c0-1.1.9-2 2-2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-email" viewBox="0 0 24 24">
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="m4.5 7 7.5 6 7.5-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-facebook" viewBox="0 0 24 24">
+      <path d="M14.5 8.5h2V5.3c-.4-.05-1.5-.15-2.7-.15-2.7 0-4.5 1.7-4.5 4.7v2.3H6.7v3.4h2.6V21h3.5v-5.4h2.6l.4-3.4h-3v-2c0-1 .3-1.7 1.7-1.7Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-youtube" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="18" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M10.5 9.7v4.6l4-2.3-4-2.3Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-cart" viewBox="0 0 24 24">
+      <path d="M4 5h2l1.6 9.2a2 2 0 0 0 2 1.6h6.8a2 2 0 0 0 2-1.6L20 8H6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="19.5" r="1.3" fill="currentColor"/>
+      <circle cx="16.5" cy="19.5" r="1.3" fill="currentColor"/>
+    </symbol>
+    <symbol id="am-icon-star" viewBox="0 0 24 24">
+      <path d="M12 3.7l2.5 5.2 5.6.8-4 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4-4 5.6-.8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-heart" viewBox="0 0 24 24">
+      <path d="M12 20.2s-7.5-4.5-9.5-9A5 5 0 0 1 12 6.5 5 5 0 0 1 21.5 11.2c-2 4.5-9.5 9-9.5 9Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-calendar" viewBox="0 0 24 24">
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M3.5 9.5h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="am-icon-message" viewBox="0 0 24 24">
+      <path d="M4 5.5h16v10.5H9l-4 3.5v-3.5H4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-pinterest" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.7" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M9.8 17.3c.4-1.6 1.3-5.3 1.3-5.3M11.6 8.4c2.3-.6 4 .5 4 2.6 0 2.2-1.2 3.9-3 3.9-.8 0-1.4-.4-1.6-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-linkedin" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <circle cx="8" cy="8.3" r="1.1" fill="currentColor"/>
+      <path d="M8 11v6M12.2 17v-3.4c0-1.4.8-2.3 2-2.3s1.8.8 1.8 2.3V17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="am-icon-x" viewBox="0 0 24 24">
+      <path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="am-icon-telegram" viewBox="0 0 24 24">
+      <path d="M20.5 4.5 3.5 11l5.5 2 1.7 5.5 2.7-3.4 4.4 3.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="m9 13 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="am-icon-threads" viewBox="0 0 24 24">
+      <path d="M12 4c-4.4 0-7 3.2-7 8s2.6 8 7 8c3.6 0 5.6-2 5.6-4.4 0-2.1-1.4-3.4-3.7-3.7-1.9-.2-3.4.4-3.4 1.8 0 1 .9 1.6 2 1.6 1.6 0 2.7-1.1 2.9-2.9.2-2.2-1-4.4-4-4.4-2.5 0-4.2 1.6-4.4 3.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="assets/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  var AM_ICONS = [
+    { key: "whatsapp", label: "WhatsApp" },
+    { key: "globe", label: "Site" },
+    { key: "ruler", label: "Orçamento" },
+    { key: "tag", label: "Oferta" },
+    { key: "sparkles", label: "Novidade" },
+    { key: "instagram", label: "Instagram" },
+    { key: "pin", label: "Localização" },
+    { key: "tiktok", label: "TikTok" },
+    { key: "phone", label: "Telefone" },
+    { key: "email", label: "E-mail" },
+    { key: "facebook", label: "Facebook" },
+    { key: "youtube", label: "YouTube" },
+    { key: "cart", label: "Loja" },
+    { key: "star", label: "Destaque" },
+    { key: "heart", label: "Favorito" },
+    { key: "calendar", label: "Agenda" },
+    { key: "message", label: "Mensagem" },
+    { key: "pinterest", label: "Pinterest" },
+    { key: "linkedin", label: "LinkedIn" },
+    { key: "x", label: "X (Twitter)" },
+    { key: "telegram", label: "Telegram" },
+    { key: "threads", label: "Threads" }
+  ];
+
+  var HIGHLIGHT_LABELS = {
+    none: "Sem destaque",
+    primary: "Verde em destaque",
+    glow: "Brilho dourado"
+  };
+
+  var els = {
+    configWarning: document.getElementById("am-config-warning"),
+    loginScreen: document.getElementById("am-login-screen"),
+    panelScreen: document.getElementById("am-panel-screen"),
+    formScreen: document.getElementById("am-form-screen"),
+    socialFormScreen: document.getElementById("am-social-form-screen"),
+    loginForm: document.getElementById("am-login-form"),
+    loginError: document.getElementById("am-login-error"),
+    logoutBtn: document.getElementById("am-logout-btn"),
+    newLinkBtn: document.getElementById("am-new-link-btn"),
+    linksList: document.getElementById("am-links-list"),
+    panelEmpty: document.getElementById("am-panel-empty"),
+    panelError: document.getElementById("am-panel-error"),
+    formTitle: document.getElementById("am-form-title"),
+    linkForm: document.getElementById("am-link-form"),
+    formId: document.getElementById("am-form-id"),
+    iconPicker: document.getElementById("am-icon-picker"),
+    formTitleInput: document.getElementById("am-form-title-input"),
+    formDescription: document.getElementById("am-form-description"),
+    formUrl: document.getElementById("am-form-url"),
+    formHighlight: document.getElementById("am-form-highlight"),
+    formCancel: document.getElementById("am-form-cancel"),
+    formError: document.getElementById("am-form-error"),
+
+    tabs: document.querySelectorAll(".am-tab"),
+    tabPanels: document.querySelectorAll(".am-tab-panel"),
+
+    newSocialBtn: document.getElementById("am-new-social-btn"),
+    socialList: document.getElementById("am-social-list"),
+    socialEmpty: document.getElementById("am-social-empty"),
+    socialError: document.getElementById("am-social-error"),
+    socialFormTitle: document.getElementById("am-social-form-title"),
+    socialForm: document.getElementById("am-social-form"),
+    socialFormId: document.getElementById("am-social-form-id"),
+    socialIconPicker: document.getElementById("am-social-icon-picker"),
+    socialFormLabel: document.getElementById("am-social-form-label"),
+    socialFormUrl: document.getElementById("am-social-form-url"),
+    socialFormCancel: document.getElementById("am-social-form-cancel"),
+    socialFormError: document.getElementById("am-social-form-error"),
+
+    contentForm: document.getElementById("am-content-form"),
+    contentLogoPreview: document.getElementById("am-content-logo-preview"),
+    contentLogoFile: document.getElementById("am-content-logo-file"),
+    contentLogoAlt: document.getElementById("am-content-logo-alt"),
+    contentBgPreview: document.getElementById("am-content-bg-preview"),
+    contentBgFile: document.getElementById("am-content-bg-file"),
+    contentEyebrow: document.getElementById("am-content-eyebrow"),
+    contentSubtitle: document.getElementById("am-content-subtitle"),
+    contentCopy: document.getElementById("am-content-copy"),
+    contentLinksLabel: document.getElementById("am-content-links-label"),
+    contentFeatureKicker: document.getElementById("am-content-feature-kicker"),
+    contentFeatureTitle: document.getElementById("am-content-feature-title"),
+    contentFeatureText: document.getElementById("am-content-feature-text"),
+    contentFeatureCtaLabel: document.getElementById("am-content-feature-cta-label"),
+    contentFeatureCtaUrl: document.getElementById("am-content-feature-cta-url"),
+    contentSocialLabel: document.getElementById("am-content-social-label"),
+    contentSuccess: document.getElementById("am-content-success"),
+    contentError: document.getElementById("am-content-error")
+  };
+
+  function showOnly(el) {
+    [els.configWarning, els.loginScreen, els.panelScreen, els.formScreen, els.socialFormScreen].forEach(function (section) {
+      section.hidden = section !== el;
+    });
+  }
+
+  els.tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      els.tabs.forEach(function (t) { t.classList.toggle("is-active", t === tab); });
+      var name = tab.getAttribute("data-tab");
+      els.tabPanels.forEach(function (panel) {
+        panel.hidden = panel.getAttribute("data-tab-panel") !== name;
+      });
+    });
+  });
+
+  if (!window.AM_SUPABASE_URL || window.AM_SUPABASE_URL.indexOf("SEU-PROJETO") !== -1) {
+    showOnly(els.configWarning);
+  } else {
+    startApp();
+  }
+
+  function startApp() {
+    var client = supabase.createClient(window.AM_SUPABASE_URL, window.AM_SUPABASE_ANON_KEY);
+    var selectedIcon = "";
+    var editingId = null;
+    var selectedSocialIcon = "";
+    var editingSocialId = null;
+    var deleteConfirmTimers = {};
+    var contentLogoUrl = "";
+    var contentBackgroundUrl = "";
+
+    function escapeHtml(value) {
+      return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+      });
+    }
+
+    function iconSvg(key) {
+      return '<svg aria-hidden="true" viewBox="0 0 24 24"><use href="#am-icon-' + escapeHtml(key || "globe") + '"></use></svg>';
+    }
+
+    function iconPickerHtml(selected) {
+      return AM_ICONS.map(function (icon) {
+        var isSelected = icon.key === selected ? " is-selected" : "";
+        return (
+          '<button type="button" class="am-icon-option' + isSelected + '" data-icon="' + icon.key + '" aria-label="' + icon.label + '">' +
+            iconSvg(icon.key) +
+            "<span>" + icon.label + "</span>" +
+          "</button>"
+        );
+      }).join("");
+    }
+
+    function renderIconPicker() {
+      els.iconPicker.innerHTML = iconPickerHtml(selectedIcon);
+    }
+
+    function renderSocialIconPicker() {
+      els.socialIconPicker.innerHTML = iconPickerHtml(selectedSocialIcon);
+    }
+
+    els.iconPicker.addEventListener("click", function (event) {
+      var btn = event.target.closest(".am-icon-option");
+      if (!btn) return;
+      selectedIcon = btn.getAttribute("data-icon");
+      renderIconPicker();
+    });
+
+    els.socialIconPicker.addEventListener("click", function (event) {
+      var btn = event.target.closest(".am-icon-option");
+      if (!btn) return;
+      selectedSocialIcon = btn.getAttribute("data-icon");
+      renderSocialIconPicker();
+    });
+
+    async function loadLinks() {
+      els.panelError.hidden = true;
+      var result = await client.from("links").select("*").order("position", { ascending: true });
+      if (result.error) {
+        els.panelError.textContent = "Não foi possível carregar os links: " + result.error.message;
+        els.panelError.hidden = false;
+        return;
+      }
+      renderList(result.data || []);
+    }
+
+    function renderList(links) {
+      els.panelEmpty.hidden = links.length !== 0;
+      els.linksList.innerHTML = links.map(function (link, index) {
+        var badge = link.highlight !== "none"
+          ? '<span class="am-link-row-badge' + (link.highlight === "primary" ? " am-link-row-badge--primary" : "") + '">' + HIGHLIGHT_LABELS[link.highlight] + "</span>"
+          : "";
+        return (
+          '<li class="am-link-row" data-id="' + link.id + '">' +
+            '<span class="am-link-row-icon">' + iconSvg(link.icon_key) + "</span>" +
+            '<span class="am-link-row-info">' +
+              '<span class="am-link-row-title">' + escapeHtml(link.title) + "</span>" +
+              '<span class="am-link-row-url">' + escapeHtml(link.url) + "</span>" +
+              badge +
+            "</span>" +
+            '<span class="am-link-row-actions">' +
+              '<button type="button" class="am-btn-text" data-action="up"' + (index === 0 ? " disabled" : "") + '>↑</button>' +
+              '<button type="button" class="am-btn-text" data-action="down"' + (index === links.length - 1 ? " disabled" : "") + '>↓</button>' +
+              '<button type="button" class="am-btn-text" data-action="edit">Editar</button>' +
+              '<button type="button" class="am-btn-text am-btn-danger" data-action="delete">Excluir</button>' +
+            "</span>" +
+          "</li>"
+        );
+      }).join("");
+      renderList.current = links;
+    }
+
+    els.linksList.addEventListener("click", async function (event) {
+      var btn = event.target.closest("button[data-action]");
+      if (!btn) return;
+      var row = event.target.closest(".am-link-row");
+      var id = row.getAttribute("data-id");
+      var action = btn.getAttribute("data-action");
+      var links = renderList.current || [];
+      var index = links.findIndex(function (l) { return String(l.id) === String(id); });
+      var link = links[index];
+      if (!link) return;
+
+      if (action === "edit") {
+        openForm(link);
+        return;
+      }
+
+      if (action === "up" || action === "down") {
+        var otherIndex = action === "up" ? index - 1 : index + 1;
+        var other = links[otherIndex];
+        if (!other) return;
+        var myPos = link.position;
+        var otherPos = other.position;
+        await client.from("links").update({ position: otherPos }).eq("id", link.id);
+        await client.from("links").update({ position: myPos }).eq("id", other.id);
+        loadLinks();
+        return;
+      }
+
+      if (action === "delete") {
+        if (btn.dataset.confirming === "1") {
+          clearTimeout(deleteConfirmTimers[id]);
+          var result = await client.from("links").delete().eq("id", id);
+          if (result.error) {
+            els.panelError.textContent = "Não foi possível excluir: " + result.error.message;
+            els.panelError.hidden = false;
+            return;
+          }
+          loadLinks();
+          return;
+        }
+        btn.dataset.confirming = "1";
+        btn.textContent = "Confirmar exclusão?";
+        deleteConfirmTimers[id] = setTimeout(function () {
+          btn.dataset.confirming = "0";
+          btn.textContent = "Excluir";
+        }, 4000);
+      }
+    });
+
+    function openForm(link) {
+      editingId = link ? link.id : null;
+      els.formTitle.textContent = link ? "Editar link" : "Novo link";
+      els.formId.value = link ? link.id : "";
+      els.formTitleInput.value = link ? link.title : "";
+      els.formDescription.value = link && link.description ? link.description : "";
+      els.formUrl.value = link ? link.url : "";
+      els.formHighlight.value = link ? link.highlight : "none";
+      selectedIcon = link ? link.icon_key : "whatsapp";
+      renderIconPicker();
+      els.formError.hidden = true;
+      showOnly(els.formScreen);
+    }
+
+    els.newLinkBtn.addEventListener("click", function () {
+      openForm(null);
+    });
+
+    els.formCancel.addEventListener("click", function () {
+      showOnly(els.panelScreen);
+    });
+
+    els.linkForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      els.formError.hidden = true;
+
+      if (!selectedIcon) {
+        els.formError.textContent = "Selecione um ícone para o botão.";
+        els.formError.hidden = false;
+        return;
+      }
+
+      var payload = {
+        title: els.formTitleInput.value.trim(),
+        description: els.formDescription.value.trim() || null,
+        url: els.formUrl.value.trim(),
+        icon_key: selectedIcon,
+        highlight: els.formHighlight.value
+      };
+
+      var result;
+      if (editingId) {
+        result = await client.from("links").update(payload).eq("id", editingId);
+      } else {
+        var links = renderList.current || [];
+        var maxPosition = links.reduce(function (max, l) { return Math.max(max, l.position || 0); }, 0);
+        payload.position = maxPosition + 1;
+        result = await client.from("links").insert([payload]);
+      }
+
+      if (result.error) {
+        els.formError.textContent = "Não foi possível salvar: " + result.error.message;
+        els.formError.hidden = false;
+        return;
+      }
+
+      showOnly(els.panelScreen);
+      loadLinks();
+    });
+
+    // ── Redes sociais ──
+
+    async function loadSocial() {
+      els.socialError.hidden = true;
+      var result = await client.from("social_links").select("*").order("position", { ascending: true });
+      if (result.error) {
+        els.socialError.textContent = "Não foi possível carregar as redes sociais: " + result.error.message;
+        els.socialError.hidden = false;
+        return;
+      }
+      renderSocialList(result.data || []);
+    }
+
+    function renderSocialList(socials) {
+      els.socialEmpty.hidden = socials.length !== 0;
+      els.socialList.innerHTML = socials.map(function (social, index) {
+        return (
+          '<li class="am-link-row" data-id="' + social.id + '">' +
+            '<span class="am-link-row-icon">' + iconSvg(social.icon_key) + "</span>" +
+            '<span class="am-link-row-info">' +
+              '<span class="am-link-row-title">' + escapeHtml(social.label) + "</span>" +
+              '<span class="am-link-row-url">' + escapeHtml(social.url) + "</span>" +
+            "</span>" +
+            '<span class="am-link-row-actions">' +
+              '<button type="button" class="am-btn-text" data-action="up"' + (index === 0 ? " disabled" : "") + '>↑</button>' +
+              '<button type="button" class="am-btn-text" data-action="down"' + (index === socials.length - 1 ? " disabled" : "") + '>↓</button>' +
+              '<button type="button" class="am-btn-text" data-action="edit">Editar</button>' +
+              '<button type="button" class="am-btn-text am-btn-danger" data-action="delete">Excluir</button>' +
+            "</span>" +
+          "</li>"
+        );
+      }).join("");
+      renderSocialList.current = socials;
+    }
+
+    els.socialList.addEventListener("click", async function (event) {
+      var btn = event.target.closest("button[data-action]");
+      if (!btn) return;
+      var row = event.target.closest(".am-link-row");
+      var id = row.getAttribute("data-id");
+      var action = btn.getAttribute("data-action");
+      var socials = renderSocialList.current || [];
+      var index = socials.findIndex(function (s) { return String(s.id) === String(id); });
+      var social = socials[index];
+      if (!social) return;
+
+      if (action === "edit") {
+        openSocialForm(social);
+        return;
+      }
+
+      if (action === "up" || action === "down") {
+        var otherIndex = action === "up" ? index - 1 : index + 1;
+        var other = socials[otherIndex];
+        if (!other) return;
+        var myPos = social.position;
+        var otherPos = other.position;
+        await client.from("social_links").update({ position: otherPos }).eq("id", social.id);
+        await client.from("social_links").update({ position: myPos }).eq("id", other.id);
+        loadSocial();
+        return;
+      }
+
+      if (action === "delete") {
+        if (btn.dataset.confirming === "1") {
+          clearTimeout(deleteConfirmTimers[id]);
+          var result = await client.from("social_links").delete().eq("id", id);
+          if (result.error) {
+            els.socialError.textContent = "Não foi possível excluir: " + result.error.message;
+            els.socialError.hidden = false;
+            return;
+          }
+          loadSocial();
+          return;
+        }
+        btn.dataset.confirming = "1";
+        btn.textContent = "Confirmar exclusão?";
+        deleteConfirmTimers[id] = setTimeout(function () {
+          btn.dataset.confirming = "0";
+          btn.textContent = "Excluir";
+        }, 4000);
+      }
+    });
+
+    function openSocialForm(social) {
+      editingSocialId = social ? social.id : null;
+      els.socialFormTitle.textContent = social ? "Editar rede social" : "Nova rede social";
+      els.socialFormId.value = social ? social.id : "";
+      els.socialFormLabel.value = social ? social.label : "";
+      els.socialFormUrl.value = social ? social.url : "";
+      selectedSocialIcon = social ? social.icon_key : "instagram";
+      renderSocialIconPicker();
+      els.socialFormError.hidden = true;
+      showOnly(els.socialFormScreen);
+    }
+
+    els.newSocialBtn.addEventListener("click", function () {
+      openSocialForm(null);
+    });
+
+    els.socialFormCancel.addEventListener("click", function () {
+      showOnly(els.panelScreen);
+    });
+
+    els.socialForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      els.socialFormError.hidden = true;
+
+      if (!selectedSocialIcon) {
+        els.socialFormError.textContent = "Selecione um ícone.";
+        els.socialFormError.hidden = false;
+        return;
+      }
+
+      var payload = {
+        label: els.socialFormLabel.value.trim(),
+        url: els.socialFormUrl.value.trim(),
+        icon_key: selectedSocialIcon
+      };
+
+      var result;
+      if (editingSocialId) {
+        result = await client.from("social_links").update(payload).eq("id", editingSocialId);
+      } else {
+        var socials = renderSocialList.current || [];
+        var maxPosition = socials.reduce(function (max, s) { return Math.max(max, s.position || 0); }, 0);
+        payload.position = maxPosition + 1;
+        result = await client.from("social_links").insert([payload]);
+      }
+
+      if (result.error) {
+        els.socialFormError.textContent = "Não foi possível salvar: " + result.error.message;
+        els.socialFormError.hidden = false;
+        return;
+      }
+
+      showOnly(els.panelScreen);
+      loadSocial();
+    });
+
+    // ── Conteúdo do site ──
+
+    async function uploadImage(file, prefix) {
+      var ext = file.name.split(".").pop();
+      var path = prefix + "-" + Date.now() + "." + ext;
+      var result = await client.storage.from("site-media").upload(path, file, { upsert: false });
+      if (result.error) throw result.error;
+      return client.storage.from("site-media").getPublicUrl(path).data.publicUrl;
+    }
+
+    els.contentLogoFile.addEventListener("change", async function () {
+      var file = els.contentLogoFile.files[0];
+      if (!file) return;
+      els.contentError.hidden = true;
+      try {
+        contentLogoUrl = await uploadImage(file, "logo");
+        els.contentLogoPreview.src = contentLogoUrl;
+      } catch (err) {
+        els.contentError.textContent = "Não foi possível enviar a logo: " + err.message;
+        els.contentError.hidden = false;
+      }
+    });
+
+    els.contentBgFile.addEventListener("change", async function () {
+      var file = els.contentBgFile.files[0];
+      if (!file) return;
+      els.contentError.hidden = true;
+      try {
+        contentBackgroundUrl = await uploadImage(file, "background");
+        els.contentBgPreview.src = contentBackgroundUrl;
+      } catch (err) {
+        els.contentError.textContent = "Não foi possível enviar a imagem de fundo: " + err.message;
+        els.contentError.hidden = false;
+      }
+    });
+
+    async function loadContent() {
+      els.contentError.hidden = true;
+      var result = await client.from("site_content").select("*").eq("id", 1).limit(1);
+      var content = result.data && result.data[0];
+      if (result.error || !content) {
+        els.contentError.textContent = "Não foi possível carregar o conteúdo: " + (result.error ? result.error.message : "registro não encontrado.");
+        els.contentError.hidden = false;
+        return;
+      }
+      contentLogoUrl = content.logo_url || "";
+      contentBackgroundUrl = content.background_url || "";
+      els.contentLogoPreview.src = contentLogoUrl;
+      els.contentBgPreview.src = contentBackgroundUrl;
+      els.contentLogoAlt.value = content.logo_alt || "";
+      els.contentEyebrow.value = content.eyebrow_text || "";
+      els.contentSubtitle.value = content.brand_subtitle || "";
+      els.contentCopy.value = content.brand_copy || "";
+      els.contentLinksLabel.value = content.links_section_label || "";
+      els.contentFeatureKicker.value = content.feature_kicker || "";
+      els.contentFeatureTitle.value = content.feature_title || "";
+      els.contentFeatureText.value = content.feature_text || "";
+      els.contentFeatureCtaLabel.value = content.feature_cta_label || "";
+      els.contentFeatureCtaUrl.value = content.feature_cta_url || "";
+      els.contentSocialLabel.value = content.social_label || "";
+    }
+
+    els.contentForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      els.contentError.hidden = true;
+      els.contentSuccess.hidden = true;
+
+      var payload = {
+        logo_url: contentLogoUrl,
+        logo_alt: els.contentLogoAlt.value.trim(),
+        background_url: contentBackgroundUrl,
+        eyebrow_text: els.contentEyebrow.value.trim(),
+        brand_subtitle: els.contentSubtitle.value.trim(),
+        brand_copy: els.contentCopy.value.trim(),
+        links_section_label: els.contentLinksLabel.value.trim(),
+        feature_kicker: els.contentFeatureKicker.value.trim(),
+        feature_title: els.contentFeatureTitle.value.trim(),
+        feature_text: els.contentFeatureText.value.trim(),
+        feature_cta_label: els.contentFeatureCtaLabel.value.trim(),
+        feature_cta_url: els.contentFeatureCtaUrl.value.trim(),
+        social_label: els.contentSocialLabel.value.trim()
+      };
+
+      var result = await client.from("site_content").update(payload).eq("id", 1);
+      if (result.error) {
+        els.contentError.textContent = "Não foi possível salvar: " + result.error.message;
+        els.contentError.hidden = false;
+        return;
+      }
+
+      els.contentSuccess.hidden = false;
+    });
+
+    els.loginForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      els.loginError.hidden = true;
+      var email = document.getElementById("am-login-email").value.trim();
+      var password = document.getElementById("am-login-password").value;
+      var result = await client.auth.signInWithPassword({ email: email, password: password });
+      if (result.error) {
+        els.loginError.textContent = "E-mail ou senha incorretos.";
+        els.loginError.hidden = false;
+        return;
+      }
+    });
+
+    els.logoutBtn.addEventListener("click", async function () {
+      await client.auth.signOut();
+    });
+
+    client.auth.onAuthStateChange(function (event, session) {
+      if (session) {
+        showOnly(els.panelScreen);
+        loadLinks();
+        loadSocial();
+        loadContent();
+      } else {
+        els.loginForm.reset();
+        showOnly(els.loginScreen);
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
