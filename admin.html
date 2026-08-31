@@ -117,6 +117,7 @@
     color: var(--am-brown);
     background: #fbf9f6;
     font: inherit;
+    font-size: 16px;
     font-weight: 400;
   }
 
@@ -217,6 +218,7 @@
   .am-link-row {
     display: grid;
     grid-template-columns: 40px 1fr auto;
+    grid-template-areas: "icon info actions";
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
@@ -226,6 +228,7 @@
   }
 
   .am-link-row-icon {
+    grid-area: icon;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -242,6 +245,7 @@
   }
 
   .am-link-row-info {
+    grid-area: info;
     min-width: 0;
   }
 
@@ -265,15 +269,18 @@
 
   .am-link-row-badge {
     display: inline-block;
+    max-width: 100%;
     margin-top: 3px;
-    padding: 1px 7px;
-    border-radius: 999px;
+    padding: 2px 8px;
+    border-radius: 8px;
     color: var(--am-white);
     background: #d4a017;
     font-size: 9.5px;
     font-weight: 700;
+    line-height: 1.4;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+    white-space: normal;
   }
 
   .am-link-row-badge--primary {
@@ -281,6 +288,7 @@
   }
 
   .am-link-row-actions {
+    grid-area: actions;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -347,16 +355,25 @@
     margin-bottom: 18px;
     padding-bottom: 14px;
     border-bottom: 1px solid rgba(65, 40, 25, 0.1);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .am-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .am-tab {
-    padding: 8px 14px;
+    flex: 0 0 auto;
+    padding: 9px 14px;
     border: none;
-    border-radius: 999px;
+    border-radius: 10px;
     color: var(--am-text-soft);
     background: transparent;
     font-weight: 700;
     font-size: 12.5px;
+    white-space: nowrap;
   }
 
   .am-tab.is-active {
@@ -436,6 +453,50 @@
     clip: rect(0, 0, 0, 0) !important;
     white-space: nowrap !important;
     border: 0 !important;
+  }
+
+  @media (max-width: 520px) {
+    .am-admin-shell {
+      padding: 12px;
+    }
+
+    .am-admin-card {
+      padding: 18px 16px;
+      border-radius: 18px;
+    }
+
+    .am-link-row {
+      grid-template-columns: 40px 1fr;
+      grid-template-areas:
+        "icon info"
+        "actions actions";
+      row-gap: 10px;
+    }
+
+    .am-link-row-actions {
+      justify-content: flex-start;
+      gap: 6px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(65, 40, 25, 0.08);
+    }
+
+    .am-link-row-actions .am-btn-text {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .am-icon-picker {
+      grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+    }
+
+    .am-form-actions {
+      flex-direction: column-reverse;
+    }
+
+    .am-form-actions .am-btn-secondary {
+      width: 100%;
+    }
   }
 </style>
 </head>
@@ -611,6 +672,10 @@
           <option value="primary">Verde em destaque (largura total)</option>
           <option value="glow">Brilho dourado</option>
         </select>
+      </label>
+
+      <label class="am-field" id="am-form-badge-text-field" hidden>Texto do selo (aparece no canto do cartão)
+        <input type="text" id="am-form-badge-text" maxlength="24" placeholder="Destaque">
       </label>
 
       <div class="am-form-actions">
@@ -801,6 +866,8 @@
     formDescription: document.getElementById("am-form-description"),
     formUrl: document.getElementById("am-form-url"),
     formHighlight: document.getElementById("am-form-highlight"),
+    formBadgeTextField: document.getElementById("am-form-badge-text-field"),
+    formBadgeText: document.getElementById("am-form-badge-text"),
     formCancel: document.getElementById("am-form-cancel"),
     formError: document.getElementById("am-form-error"),
 
@@ -1036,6 +1103,12 @@
       }
     });
 
+    function updateBadgeTextVisibility() {
+      els.formBadgeTextField.hidden = els.formHighlight.value !== "glow";
+    }
+
+    els.formHighlight.addEventListener("change", updateBadgeTextVisibility);
+
     function openForm(link) {
       editingId = link ? link.id : null;
       els.formTitle.textContent = link ? "Editar link" : "Novo link";
@@ -1044,6 +1117,8 @@
       els.formDescription.value = link && link.description ? link.description : "";
       els.formUrl.value = link ? link.url : "";
       els.formHighlight.value = link ? link.highlight : "none";
+      els.formBadgeText.value = link && link.badge_text ? link.badge_text : "";
+      updateBadgeTextVisibility();
       selectedIcon = link ? link.icon_key : "whatsapp";
       renderIconPicker();
       els.formError.hidden = true;
@@ -1073,7 +1148,8 @@
         description: els.formDescription.value.trim() || null,
         url: els.formUrl.value.trim(),
         icon_key: selectedIcon,
-        highlight: els.formHighlight.value
+        highlight: els.formHighlight.value,
+        badge_text: els.formHighlight.value === "glow" ? (els.formBadgeText.value.trim() || null) : null
       };
 
       var result;
