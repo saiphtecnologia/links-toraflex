@@ -86,7 +86,7 @@ Design (reproduza fielmente — não use estilo genérico):
 ```
 Adicione ao painel administrativo que já existe neste projeto uma nova seção chamada "Links da Bio", protegida pela MESMA autenticação atual (não crie login novo). Siga o padrão de código, rotas e layout do admin existente — é uma seção nova dentro dele, não um app separado. Use componentes shadcn/ui (Tabs, Dialog, Input, Select, Button).
 
-IMPORTANTE — navegação: adicione um NOVO ITEM DE MENU chamado "Links da Bio" (com um ícone, ex.: Link ou LayoutGrid do lucide) na navegação/menu lateral do admin que já existe, no mesmo estilo dos itens atuais, apontando para a rota dessa nova seção (ex.: /admin/links-bio). O item só aparece para o usuário autenticado. Garanta que dá para chegar na seção clicando por esse menu — não deixe a página acessível apenas por URL direta.
+IMPORTANTE — NÃO altere o menu/navegação PÚBLICO do site (o que os visitantes veem): não adicione nenhum item novo lá. Toda a gestão da bio deve ficar SOMENTE no painel administrativo, acessível apenas por quem está logado, no mesmo modelo do nosso painel admin atual. A edição e a inclusão de links, redes sociais e conteúdo acontecem só por dentro do admin — os visitantes só veem a página /links pronta.
 
 A seção "Links da Bio" tem 3 sub-abas:
 
@@ -108,6 +108,24 @@ Se algo sair diferente, use follow-ups pontuais, por exemplo:
 ```
 Ajuste a página /links para bater exatamente com a especificação: use a fonte Manrope, o gradiente de fundo linear-gradient(155deg, #2a3082, #232a6e 55%, #1a1f52), o painel central "glass" com blur(18px) e fundo rgba(255,255,255,0.84), o card highlight=primary em largura total com fundo #dc2626 e texto branco, e o selo pulsante nos cards highlight=glow.
 ```
+
+## ETAPA 5 (correção) — Tirar a bio do menu público do site
+
+> Use se os prompts anteriores já foram rodados e o Lovable adicionou algum item de menu apontando para a bio. Objetivo: manter a gestão SÓ no admin e não expor nada no menu que os visitantes veem.
+
+```
+Ajuste no que foi criado para a bio/página de links:
+
+1. NÃO quero nenhum item novo no menu de navegação PÚBLICO do site (o que os visitantes enxergam). Se você adicionou algum link/item de menu público apontando para /links ou para a gestão da bio, REMOVA-O. O menu público deve voltar a ser exatamente como era antes.
+
+2. A página pública /links deve continuar existindo e acessível pela própria rota /links (ela será usada como "link na bio"), mas NÃO deve aparecer como item no menu do site.
+
+3. Toda a edição e inclusão de links, redes sociais e conteúdo da bio deve acontecer APENAS dentro do painel administrativo, para usuário logado — no mesmo modelo do nosso admin atual. Não crie login novo.
+
+Não altere o design da página /links nem o schema do banco; é só remover a exposição no menu público e garantir que a gestão fique restrita ao admin.
+```
+
+---
 
 ### Notas
 - Como o Lovable Cloud é Supabase por baixo, o schema aqui é o mesmo do arquivo `supabase-schema.sql` deste repositório — pode usá-lo como referência se preferir criar as tabelas via SQL Editor.
