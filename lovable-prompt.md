@@ -86,6 +86,8 @@ Design (reproduza fielmente — não use estilo genérico):
 ```
 Adicione ao painel administrativo que já existe neste projeto uma nova seção chamada "Links da Bio", protegida pela MESMA autenticação atual (não crie login novo). Siga o padrão de código, rotas e layout do admin existente — é uma seção nova dentro dele, não um app separado. Use componentes shadcn/ui (Tabs, Dialog, Input, Select, Button).
 
+IMPORTANTE — navegação: adicione um NOVO ITEM DE MENU chamado "Links da Bio" (com um ícone, ex.: Link ou LayoutGrid do lucide) na navegação/menu lateral do admin que já existe, no mesmo estilo dos itens atuais, apontando para a rota dessa nova seção (ex.: /admin/links-bio). O item só aparece para o usuário autenticado. Garanta que dá para chegar na seção clicando por esse menu — não deixe a página acessível apenas por URL direta.
+
 A seção "Links da Bio" tem 3 sub-abas:
 
 1) Links: listar (ordenados por position), criar, editar, excluir e reordenar com setas ↑/↓ (trocando position). Formulário: seletor visual de ícone (grade com os ícones do mapa da Etapa 2), nome, descrição (opcional), URL, e campo "Destaque" (Nenhum / Vermelho em destaque (largura total) / Brilho vermelho). Quando Destaque = Brilho vermelho, mostrar campo opcional "Texto do selo" (badge_text).
