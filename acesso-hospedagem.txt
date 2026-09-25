@@ -1,10 +1,17 @@
-Acesso a hosepdagem Hostinger
-
-Com e-mail artemineirastore@gmail.com acesso direto com e-mail
+ACESSOS — Toraflex Colchões (Link Hub)
 
 ------------------
+HOSPEDAGEM
+- Provedor: (a definir)
+- Login: (a definir)
 
-ACESSO AO SUPABASE
+------------------
+SUPABASE (projeto Toraflex)
+- Conta/e-mail: (a definir)
+- Senha: (a definir)
+- Project URL:  preencher em assets/supabase-config.js (TF_SUPABASE_URL)
+- Chave anon:   preencher em assets/supabase-config.js (TF_SUPABASE_ANON_KEY)
+- Usuário admin do painel (Authentication > Users): (a definir)
 
-artemineirastore@gmail.com 
-Senha: Nuttertools208192#
+Observação: não versione senhas reais neste arquivo. Guarde-as em um cofre de
+senhas. Este arquivo serve apenas como checklist do que precisa ser preenchido.
