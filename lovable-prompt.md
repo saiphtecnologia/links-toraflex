@@ -127,6 +127,24 @@ Não altere o design da página /links nem o schema do banco; é só remover a e
 
 ---
 
+## ETAPA 6 (correção) — Adicionar o `badge_text` (campo esquecido)
+
+> Projeto já publicado em https://toraflex.com.br/links. Este prompt só adiciona o texto do selo; não recria nem redesenha nada.
+
+```
+Faltou o campo do selo (badge_text) na bio já criada. Faça SOMENTE este ajuste, sem recriar nada e sem mudar o design existente:
+
+1) Banco (Lovable Cloud): na tabela links, adicione a coluna badge_text do tipo text (pode ser null), se ainda não existir.
+
+2) Admin → seção "Links da Bio" → formulário de link: quando o campo "Destaque" for "Brilho vermelho" (glow), exibir um campo de texto opcional "Texto do selo" que grava em links.badge_text. Para os outros tipos de destaque, salvar null nesse campo.
+
+3) Página pública /links: nos cards com highlight = glow, mostrar o selo no canto superior direito usando o valor de badge_text; se badge_text estiver vazio, usar "Destaque" como texto padrão.
+
+Não altere mais nada além disso.
+```
+
+---
+
 ### Notas
 - Como o Lovable Cloud é Supabase por baixo, o schema aqui é o mesmo do arquivo `supabase-schema.sql` deste repositório — pode usá-lo como referência se preferir criar as tabelas via SQL Editor.
 - A rota `/links` pode depois ser apontada por um subdomínio (ex.: bio.toraflex.com.br) via configuração de domínio, se quiser.
